@@ -1,0 +1,18 @@
+{
+  "name": "wasm_require",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/wasmRequire.js",
+  "scripts": {
+    "lint": "eslint src",
+    "fix": "npm run lint -- --fix",
+  },
+  "author": "Jevan Chan",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "prettier": "^1.11.1"
+  }
+}
