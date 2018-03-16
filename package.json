@@ -5,7 +5,7 @@
   "main": "src/wasmRequire.js",
   "scripts": {
     "lint": "eslint src",
-    "fix": "npm run lint -- --fix",
+    "fix": "npm run lint -- --fix"
   },
   "author": "Jevan Chan",
   "license": "ISC",
