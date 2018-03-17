@@ -1,5 +1,5 @@
 {
-  "name": "wasm_require",
+  "name": "wasm-require",
   "version": "0.1.0",
   "description": "Load WASM module in a forward compatible way.",
   "main": "src/wasmRequire.js",
