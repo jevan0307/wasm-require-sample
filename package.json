@@ -1,7 +1,7 @@
 {
   "name": "wasm_require",
   "version": "0.1.0",
-  "description": "",
+  "description": "Load WASM module in a forward compatible way.",
   "main": "src/wasmRequire.js",
   "scripts": {
     "lint": "eslint src",
@@ -14,5 +14,8 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-prettier": "^2.6.0",
     "prettier": "^1.11.1"
+  },
+  "dependencies": {
+    "get-caller-file": "^1.0.2"
   }
 }

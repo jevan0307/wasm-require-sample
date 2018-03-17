@@ -1,6 +1,7 @@
 "use strict";
 var fs = require("fs");
 var path = require("path");
+var getCallerFile = require("get-caller-file");
 /* eslint no-undef: "off" */
 
 function createWasmObjects(obj) {
@@ -49,14 +50,22 @@ function createModuleObject(module, moduleExports) {
 
 var cache = {};
 function wasmRequire(moduleName, moduleExports, wasmImports) {
-  var key = path.resolve(moduleName);
+  var calledFrom = getCallerFile();
+  var isLocalModule = /^\.{1,2}[/\\]?/.test(moduleName);
+  var moduleResolvedName;
   var module;
-  if (cache[key]) {
+
+  if (isLocalModule) {
+    moduleResolvedName = path.join(path.dirname(calledFrom), moduleName);
+  } else {
+    moduleResolvedName = moduleName;
+  }
+  if (cache[moduleResolvedName]) {
     return new Promise(function(resolve, reject) {
-      if (cache[key].isInitialized !== false) {
-        resolve(createModuleObject(cache[key]));
+      if (cache[moduleResolvedName].isInitialized !== false) {
+        resolve(createModuleObject(cache[moduleResolvedName], moduleExports));
       } else {
-        cache[key].locks.push(resolve);
+        cache[moduleResolvedName].locks.push(resolve);
       }
     });
   }
@@ -65,27 +74,27 @@ function wasmRequire(moduleName, moduleExports, wasmImports) {
     typeof WebAssembly === "object" &&
     typeof WebAssembly.compile === "function"
   ) {
-    if (fs.existsSync(moduleName + ".emcs.js")) {
-      module = require(moduleName + ".emcs.js");
-      cache[key] = module;
+    if (fs.existsSync(moduleResolvedName + ".emcc.js")) {
+      module = require(moduleResolvedName + ".emcc.js");
+      cache[moduleResolvedName] = module;
       module.isInitialized = false;
       module.locks = [];
       module.onRuntimeInitialized = function() {
         module.isInitialized = true;
         for (var resolve of module.locks) {
-          resolve(createModuleObject(module));
+          resolve(createModuleObject(module, moduleExports));
         }
         delete module.locks;
       };
 
       return new Promise(function(resolve, reject) {
         if (module.isInitialized !== false) {
-          resolve(createModuleObject(module));
+          resolve(createModuleObject(module, moduleExports));
         } else {
           module.locks.push(resolve);
         }
       });
-    } else if (fs.existsSync(moduleName + ".wasm")) {
+    } else if (fs.existsSync(moduleResolvedName + ".wasm")) {
       var waImports = {};
 
       if (typeof wasmImports === "object") {
@@ -94,7 +103,7 @@ function wasmRequire(moduleName, moduleExports, wasmImports) {
       }
 
       return new Promise(function(resolve, reject) {
-        fs.readFile(moduleName + ".wasm", function(err, data) {
+        fs.readFile(moduleResolvedName + ".wasm", function(err, data) {
           if (err) {
             reject(err);
           } else {
@@ -106,15 +115,15 @@ function wasmRequire(moduleName, moduleExports, wasmImports) {
         .then(waModule => new WebAssembly.Instance(waModule, waImports))
         .then(instance => {
           module = instance.exports;
-          cache[key] = module;
-          return createModuleObject(module);
+          cache[moduleResolvedName] = module;
+          return createModuleObject(module, moduleExports);
         });
     }
   }
-  module = require(moduleName + ".js");
-  cache[key] = module;
+  module = require(moduleResolvedName + ".js");
+  cache[moduleResolvedName] = module;
   return new Promise(function(resolve, reject) {
-    resolve(createModuleObject(module));
+    resolve(createModuleObject(module, moduleExports));
   });
 }
 
