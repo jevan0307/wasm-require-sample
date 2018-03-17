@@ -1,0 +1,1 @@
+{"version":3,"sources":["sample.ts"],"names":[],"mappings":"8DACI,AAAI,EAAK,SAEF,AAAI,EAAK,UAGT,AAAU,EAAI,KAAK,AAAU,EAAI","sourceRoot":"assemblyscript:///","sourceContents":["export function fibonacci (n: i32): i32 {\r\n    if (n <= 0) {\r\n        return 0;\r\n    } else if (n == 1) {\r\n        return 1;\r\n    }\r\n    return fibonacci(n - 1) + fibonacci(n - 2);\r\n}\r\n"]}
