@@ -20,7 +20,7 @@ Run on Single core Intel Core i7-7600U.
 
 | Node version | Time | Remark |
 | ------------ | ---- | ------ |
-| v7.10.1      | 1.602s  | With WebAssembly |
+| v9.8.0       | 1.602s  | With WebAssembly |
 | v8.10.0      | 1.708s  | With WebAssembly |
-| v6.13.1      | 2.050s  | &nbsp; |
-| v9.8.0       | 1.990s  | &nbsp; |
+| v7.10.1      | 2.050s  | &nbsp; |
+| v6.13.1      | 1.990s  | &nbsp; |
