@@ -1,7 +1,7 @@
 {
   "name": "wasm-require",
   "version": "0.1.0",
-  "description": "Load WASM module in a forward compatible way.",
+  "description": "Load WASM module in a backward compatible way.",
   "main": "src/wasmRequire.js",
   "scripts": {
     "lint": "eslint src",
