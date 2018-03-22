@@ -28,7 +28,8 @@ You need to rename your JS loader with `<module_name>.emcc.js`.
 #### WebAssembly binary
 For normal WebAssembly binary, rename the binary to `<module_name>.wasm`
 #### Native JavaScript module
-For native JS module, rename the entry of module to `<module_name>.js`
+For native JS module, rename the entry of module to `<module_name>.js`    
+It can also be the asm.js module compiled from other language, like C++ with Emscripten.
 
  WASM-Require will the search module path and load the module in following order:
  1. Emscripten (if support WebAssembly)
@@ -54,7 +55,6 @@ see [WebAssembly.Instance](https://developer.mozilla.org/en-US/docs/Web/JavaScri
 See [examples](https://github.com/jevan0307/wasm-require-sample/tree/master/examples) for more details.
 
 ## Future Works
-* Complete support for asm.js
 * Wrapper for `String` parameters
 * Wrapper for `String` returns
 * Wrapper for WASM instance as object
